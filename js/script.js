@@ -1,16 +1,10 @@
 // Arrays are not primitive value types
 // Thet are reference types
-
-const fruits = ['apple', 'orange', 'strawberry', 'grape'];
+const fruits = ['apple', 'orange', 'strawberry', 'grape', 'banana', 'blueberry', 'kiwi'];
 const names = ['Roman', 'Michael', 'Nina', 'Adonis'];
 const data = ['JD', 'Tadlock', 44, '555 coding dr', '777-777-7777', ['pickleball', 'fishing']];
 
-fruits[2] = 'strawberry';
 
-// Increase te data age number by one - console.log the original value and the new value after you increase it
-
-console.log(data[2]);
-
-data[2] ++ 
-
-console.log(data[2]);
+for (let index = 0; index < fullName.length; index++) {
+    console.log(fullName[index]);
+}

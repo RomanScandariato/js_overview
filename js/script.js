@@ -1,41 +1,51 @@
-const userData = {
-    name: 'JD',
-    age: 44,
-    phone: '777-777-7777',
-    adress: '555 coding str',
-    height: '6 4',
-    info: {
-        location: 'Atlanta area',
-        hobbies: ['pickleball', 'fishing']
-    },
-    printAge: function() {
-        console.log(this.age);
-    },
-    haveBirthday: function() {
-        this.age++;
-        console.log('Happy Birthday!');
-    },
-    addHobby: function(hobby) {
+const header = document.querySelector('h1');
+const paragraph = document.querySelector('.special-paragraph');
+const image = document.querySelector('#main-image');
+const noteOutput = document.querySelector('.output');
+const timerDisplay = document.querySelector('#time');
+const timerBtn = document.querySelector('#start-btn');
+const timerResetBtn = document.querySelector('#reset-btn');
+const timerStopBtn = document.querySelector('#stop-btn');
 
-        this.info.hobbies.push(hobby);
-    },
-    printHobbies: function() {
-        console.log(this.info.hobbies);
-        
+header.classList.add('crazy');
 
-        for (let i = 0; i < this.info.hobbies.length; i++) {
-            console.log(this.info.hobbies[i]);
-        }
+header.style.textDecoration = 'underline';
 
-        for (let hobby of this.info.hobbies ) {
-            console.log(hobby);
-        }
+// image.setAttribute('src', 'https://images.pexels.com/photos/16112572/pexels-photo-16112572/free-photo-of-view-of-sun-shining-between-the-trees-in-a-park.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+
+// Instert a new article element into the output section
+noteOutput.insertAdjacentHTML('beforeend', `
+    <article>
+        <h3>New note text</h3>
+        <p>Added On: 9/20/2024</p>
+    </article>
+`);
+
+// Timers
+// setTimeout(function() {
+//     console.log('Time Up!');
+// }, 3000);
+
+
+let count = 10;
+let started = false;
+
+timerBtn.addEventListener('click', function () {
+    if (!started) {
+        const timer = setInterval(function () {
+            count--;
+
+            timerDisplay.innerText = 'Time: ' + count;
+
+            if (count <= 0) {
+                clearInterval(timer);
+
+                timerDisplay.innerText = 'Time: 10';
+                count = 10;
+                started = false;
+            }
+        }, 1000);
+
+        started = true;
     }
-};
-
-userData.addHobby('hiking');
-userData.addHobby('coding');
-userData.addHobby('golf');
-userData.addHobby('bingo');
-
-userData.printHobbies();
+});

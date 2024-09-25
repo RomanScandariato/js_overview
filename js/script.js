@@ -1,51 +1,79 @@
-const header = document.querySelector('h1');
-const paragraph = document.querySelector('.special-paragraph');
-const image = document.querySelector('#main-image');
 const noteOutput = document.querySelector('.output');
-const timerDisplay = document.querySelector('#time');
-const timerBtn = document.querySelector('#start-btn');
-const timerResetBtn = document.querySelector('#reset-btn');
-const timerStopBtn = document.querySelector('#stop-btn');
+const addNoteBtn = document.querySelector('#add-btn')
+const randomNoteBtn = document.querySelector('#random-btn')
+const noteModal = document.querySelector('#note-modal');
+const noteModalTitleEl = document.querySelector('.modal-title');
+const noteModalTextContentEl = document.querySelector('.modal-text-content');
+const noteModalDateEl = document.querySelector('.modal-date');
+const notes = [];
 
-header.classList.add('crazy');
+function outputNotes(arrayOfNotes) {
 
-header.style.textDecoration = 'underline';
+    noteOutput.innerHTML = '';
 
-// image.setAttribute('src', 'https://images.pexels.com/photos/16112572/pexels-photo-16112572/free-photo-of-view-of-sun-shining-between-the-trees-in-a-park.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
-
-// Instert a new article element into the output section
-noteOutput.insertAdjacentHTML('beforeend', `
-    <article>
-        <h3>New note text</h3>
-        <p>Added On: 9/20/2024</p>
-    </article>
-`);
-
-// Timers
-// setTimeout(function() {
-//     console.log('Time Up!');
-// }, 3000);
-
-
-let count = 10;
-let started = false;
-
-timerBtn.addEventListener('click', function () {
-    if (!started) {
-        const timer = setInterval(function () {
-            count--;
-
-            timerDisplay.innerText = 'Time: ' + count;
-
-            if (count <= 0) {
-                clearInterval(timer);
-
-                timerDisplay.innerText = 'Time: 10';
-                count = 10;
-                started = false;
-            }
-        }, 1000);
-
-        started = true;
+    for (const noteObject of arrayOfNotes) {
+        noteOutput.insertAdjacentHTML('beforeend', `
+        <article class="border border-light-subtle p-2 rounded-2 text-black-50 mb-3">
+            <h3>${noteObject.title}</h3>
+            <p>${noteObject.textContent}</p>
+            <p>Added On: ${noteObject.date}</p>
+        </article>
+    `);
     }
+
+}
+
+function gatherNotes() {
+    let title;
+    let textContent;
+    const date = new Date();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const year = date.getFullYear();
+    const dateOutput = month + '/' + day + '/' + year;
+
+    let keepAsking = true;
+
+    while (keepAsking) {
+        title = prompt('Please provide the title');
+        textContent = prompt('Please provide the text content of your note');
+        if (title && textContent) {
+            keepAsking = false;
+        } else {
+            alert('You must enter both title and text content');
+        }
+    }
+
+    const noteObject = {
+        title: title,
+        textContent: textContent,
+        date: dateOutput
+    };
+
+    notes.push(noteObject);
+
+    return notes;
+}
+
+function outputRandomNote() {
+    const ranNum = Math.random();
+    const index = Math.floor(ranNum * notes.length);
+    const note = notes[index];
+
+// modal popup here
+    noteModalTitleEl.innerText = note.title;
+    noteModalTextContentEl.innerText = note.textContent;
+    noteModalDateEl.innerText = note.date;
+
+    $('#note-modal').modal('show');
+}
+
+addNoteBtn.addEventListener('click', function () {
+    const notesArray = gatherNotes();
+
+    outputNotes(notesArray);
 });
+
+randomNoteBtn.addEventListener('click', outputRandomNote);
+
+
